@@ -1,0 +1,16 @@
+---
+- name: Respaldar configuracion del router
+  hosts: routers
+  gather_facts: no
+  tasks:
+
+    - name: Obtener running-config y guardarla como respaldo
+      cisco.ios.ios_config:
+        backup: yes
+        backup_options:
+          filename: "backup_csr1000v_{{ inventory_hostname }}.cfg"
+          dir_path: "./backups"
+
+    - name: Confirmar respaldo generado
+      debug:
+        msg: "Respaldo generado en ./backups/backup_csr1000v_{{ inventory_hostname }}.cfg"
